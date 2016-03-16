@@ -15,7 +15,7 @@
     "karma-browserify": "^4.2.0",
     "karma-jasmine": "^0.1.5",
     "karma-phantomjs-launcher": "^0.1.4",
-    "karma-chai": "*",
+    "chai": "*",
     "babelify": "*",
     "babel-preset-es2015": "*",
     "karma-babel-preprocessor": "*"
