@@ -1,8 +1,9 @@
 {
   "name": "myapp",
   "version": "1.0.0",
-  "repository": "",
+  "repository": "https://github.com/bierik/javascript-library",
   "license": "MIT",
+  "description": "Boilerplate package for creating javascript babel es2015 library with test suit.",
   "scripts": {
     "test": "karma start"
   },
