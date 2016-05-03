@@ -7,18 +7,23 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
 
     browserify: {
+      options: {
+        browserifyOptions: {
+          standalone: "<%= pkg.name %>",
+        }
+      },
       dist: {
         options: {
           paths: ["./src", "./test/spec"],
           transform: [
-            ["babelify", { presets: "es2015" }]
-          ],
-          browserifyOptions: {
-            standalone: "<%= pkg.name %>"
-          }
+            ["babelify", {
+              presets: "es2015"
+            }],
+            "browserify-shim"
+          ]
         },
         files: {
-          "dist/<%= pkg.name %>.js": ["./src/<%= pkg.name %>.js"]
+          "./dist/<%= pkg.name %>.js": ["./src/<%= pkg.name %>.js"]
         }
       }
     },
