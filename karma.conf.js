@@ -3,21 +3,23 @@
 module.exports = function(karma) {
   karma.set({
 
-    frameworks: [ "jasmine", "browserify", "chai" ],
+    frameworks: [ "jasmine", "browserify", "chai", "fixture" ],
 
     files: [
-      "./test/**/*.js"
+      { pattern: "test/**/*.js" },
+      { pattern: "test/fixtures/**/*.html" }
     ],
 
     reporters: [ "dots" ],
 
     preprocessors: {
-      "./test/**/*.js": "browserify"
+      "test/**/*.js": "browserify",
+      "test/fixtures/**/*.html": "html2js",
     },
 
     browserify: {
       debug: true,
-      paths: ["./src", "./test/spec"],
+      paths: ["src", "test/spec"],
       transform: [
         ["babelify", {
             presets: ["es2015"],
