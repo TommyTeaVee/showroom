@@ -28,7 +28,7 @@ module.exports = function(karma) {
       ]
     },
 
-    browsers: [ "PhantomJS" ],
+    browsers: [ "PhantomJS", "Chrome" ],
 
     singleRun: false,
     autoWatch: true

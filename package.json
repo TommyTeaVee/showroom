@@ -17,6 +17,7 @@
     "jasmine-core": "*",
     "karma-jasmine": "*",
     "karma-phantomjs-launcher": "^0.1.4",
+    "karma-chrome-launcher": "*",
     "chai": "*",
     "karma-chai": "*",
     "karma-fixture": "*",
