@@ -14,7 +14,7 @@ module.exports = function(karma) {
 
     preprocessors: {
       "test/**/*.js": "browserify",
-      "test/fixtures/**/*.html": "html2js",
+      "test/fixtures/**/*.html": "html2js"
     },
 
     browserify: {
