@@ -53,11 +53,19 @@ Browserify comes with a built-in support to generate source maps. It is already 
 to enable source maps in Google Chrome, if you haven't already done so.
 
 ### Tests
-Simply run:
+Run all tests
 ```
 npm test
 ```
+or
+```
+grunt test
+```
 
+Run a specific test
+```
+grunt test --grep="Name of your test"
+```
 ### Additional Notes
 
 When you are changing library's name from **myapp** to **YOUR_LIBRARY_NAME**
