@@ -7,43 +7,51 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
 
     browserify: {
-      options: {
-        browserifyOptions: {
-          standalone: "<%= pkg.name %>",
-        }
+      dev: {
+        dest: "<%= pkg.main %>",
+        src: "./src/<%= pkg.name %>.js",
+        options: {
+          watch: true,
+          keepAlive: true,
+          browserifyOptions: {
+            debug: true,
+            standalone: "<%= pkg.name %>",
+            transform: [
+              ["babelify", {
+                presets: "es2015"
+              }],
+              "browserify-shim"
+            ]
+          }
+        },
       },
       dist: {
+        dest: "<%= pkg.main %>",
+        src: "./src/<%= pkg.name %>.js",
         options: {
-          paths: ["./src", "./test/spec"],
-          transform: [
-            ["babelify", {
-              presets: "es2015"
-            }],
-            "browserify-shim"
-          ]
-        },
-        files: {
-          "./dist/<%= pkg.name %>.js": ["./src/<%= pkg.name %>.js"]
+          browserifyOptions: {
+            standalone: "<%= pkg.name %>",
+            transform: [
+              ["babelify", {
+                presets: "es2015"
+              }],
+              "browserify-shim"
+            ]
+          }
         }
       }
     },
 
     karma: { unit: { configFile: "karma.conf.js" } },
 
-    watch: {
-      scripts: {
-        files: ["src/**/*.js"],
-        tasks: ["browserify"]
-      }
-    }
   });
 
   grunt.loadNpmTasks("grunt-browserify");
-  grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask("default", ["watch"]);
-  grunt.registerTask("build", ["browserify"]);
+  grunt.registerTask("dev", ["browserify:dev"]);
+  grunt.registerTask("dist", ["browserify:dist"]);
+  grunt.registerTask("default", ["dev"]);
   grunt.registerTask("test", ["karma"]);
 
 };
