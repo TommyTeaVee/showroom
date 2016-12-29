@@ -1,5 +1,5 @@
 {
-  "name": "myapp",
+  "name": "exhibition",
   "version": "1.0.0",
   "repository": "https://github.com/bierik/javascript-library",
   "license": "MIT",
@@ -19,6 +19,7 @@
     "karma-jasmine": "1.0.2",
     "karma-phantomjs-launcher": "1.0.2",
     "karma-chrome-launcher": "2.0.0",
+    "karma-ievms": "0.1.0",
     "chai": "3.5.0",
     "karma-chai": "0.1.0",
     "karma-fixture": "0.2.6",
@@ -31,5 +32,14 @@
     "browserify-shim": "3.8.12",
     "underscore": "1.8.3"
   },
-  "browserify-shim": {}
+  "dependencies": {
+    "dombars": "^0.6.2",
+    "no-op": "^1.0.3",
+    "object-assign": "^4.1.0",
+    "once": "^1.4.0",
+    "remove-value": "^1.0.0",
+    "times-loop": "^2.0.0",
+    "uuid": "^3.0.1",
+    "webcomponents-lite": "^0.6.0"
+  }
 }

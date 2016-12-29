@@ -6,8 +6,9 @@ module.exports = function(karma) {
     frameworks: [ "jasmine", "browserify", "chai", "fixture" ],
 
     files: [
-      { pattern: "test/**/*.js", watched: false, included: true, served: true },
-      { pattern: "test/fixtures/**/*.html" }
+      { pattern: "./test/setup.js", watched: false, included: true },
+      { pattern: "./test/**/*.js", watched: false, included: true },
+      { pattern: "./test/fixtures/**/*.html" }
     ],
 
     reporters: [ "dots" ],
@@ -20,15 +21,8 @@ module.exports = function(karma) {
     browserify: {
       debug: true,
       paths: ["src", "test/spec"],
-      transform: [
-        ["babelify", {
-            presets: ["es2015"],
-            sourceRoot: "../../src"
-        }]
-      ]
+      transform: [ ["babelify", { presets: ["es2015"] }] ]
     },
-
-    browsers: [ "PhantomJS", "Chrome" ],
 
     singleRun: false,
     autoWatch: true

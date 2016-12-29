@@ -19,8 +19,7 @@ module.exports = function(grunt) {
             transform: [
               ["babelify", {
                 presets: "es2015"
-              }],
-              "browserify-shim"
+              }]
             ]
           }
         },
@@ -34,15 +33,26 @@ module.exports = function(grunt) {
             transform: [
               ["babelify", {
                 presets: "es2015"
-              }],
-              "browserify-shim"
+              }]
             ]
           }
         }
       }
     },
 
-    karma: { unit: { configFile: "karma.conf.js" } },
+    karma: {
+      options: {
+        configFile: "karma.conf.js"
+      },
+      dev: {
+        browsers: ["Chrome"]
+      },
+      full: {
+        browsers: ["IE11 - Win7"],
+        autoWatch: false,
+        singleRun: true
+      }
+    },
 
   });
 
@@ -52,6 +62,7 @@ module.exports = function(grunt) {
   grunt.registerTask("dev", ["browserify:dev"]);
   grunt.registerTask("dist", ["browserify:dist"]);
   grunt.registerTask("default", ["dev"]);
-  grunt.registerTask("test", ["karma"]);
+  grunt.registerTask("test", ["karma:dev"]);
+  grunt.registerTask("fulltest", ["karma:full"]);
 
 };
