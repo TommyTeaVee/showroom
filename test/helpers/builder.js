@@ -43,6 +43,13 @@ export function showroomItems() {
   return [showroom, items];
 }
 
+export function fullShowroom() {
+  fixture.load("full_showroom.html");
+  const showroom = document.querySelector("showroom-element");
+  const items = qAll("showroom-item");
+  return [showroom, items];
+}
+
 export function multipleShowrooms(count = 0) {
   times(count, () => {
     fixture.load("empty_showroom.html", true);

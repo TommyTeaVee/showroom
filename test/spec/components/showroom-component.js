@@ -2,6 +2,7 @@ import ShowroomComponent from "components/showroom-component";
 import { isUUID } from "../../helpers/utils";
 import { qAll } from "../../helpers/utils";
 import * as Builder from "../../helpers/builder";
+import Q from "q";
 
 describe("Showroom component", () => {
 
@@ -250,34 +251,22 @@ describe("Showroom component", () => {
       showroom.template = "<p>{{item.title}}</p>";
       showroom._fetch = () => "content";
 
-      showroom.next().done((e) => {
-        assert.equal(e.textContent, "item2");
-        showroom.next().done((e) => {
-          assert.equal(e.textContent, "item3");
-          showroom.next().done((e) => {
-            assert.equal(e.textContent, "item4");
-            showroom.next().done((e) => {
-              assert.equal(e.textContent, "item5");
-              showroom.prev().done((e) => {
-                assert.equal(e.textContent, "item4");
-                showroom.prev().done((e) => {
-                  assert.equal(e.textContent, "item3");
-                  showroom.prev().done((e) => {
-                    assert.equal(e.textContent, "item2");
-                    showroom.prev().done((e) => {
-                      assert.equal(e.textContent, "item1");
-                      showroom.prev().done((e) => {
-                        assert.equal(e.textContent, "item1");
-                        done();
-                      });
-                    });
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
+      Q.all([
+        showroom.next(),
+        showroom.next(),
+        showroom.next(),
+        showroom.next(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev()
+      ]).then((results) => {
+        assert.deepEqual(
+          results.map((result) => result.textContent)
+          ["item2", "item3", "item4", "item5", "item4", "item3", "item2", "item1", "item1"]
+        );
+      }).then(done);
     });
   });
 

@@ -35,6 +35,4 @@ class Exhibition {
 
 }
 
-
-
 export default (new Exhibition());
