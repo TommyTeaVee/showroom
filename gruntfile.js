@@ -18,7 +18,8 @@ module.exports = function(grunt) {
             standalone: "<%= pkg.name %>",
             transform: [
               ["babelify", {
-                presets: "es2015"
+                presets: ["es2015-ie"],
+                plugins: ["transform-es2015-classes"]
               }]
             ]
           }
@@ -32,7 +33,8 @@ module.exports = function(grunt) {
             standalone: "<%= pkg.name %>",
             transform: [
               ["babelify", {
-                presets: "es2015"
+                presets: ["es2015-ie"],
+                plugins: ["transform-es2015-classes"]
               }]
             ]
           }

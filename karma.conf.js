@@ -21,7 +21,7 @@ module.exports = function(karma) {
     browserify: {
       debug: true,
       paths: ["src", "test/spec"],
-      transform: [ ["babelify", { presets: ["es2015"] }] ]
+      transform: [ ["babelify", { presets: ["es2015-ie"], plugins: ["transform-es2015-classes"] }] ]
     },
 
     singleRun: false,
