@@ -16,6 +16,7 @@ module.exports = function(grunt) {
           browserifyOptions: {
             debug: true,
             standalone: "<%= pkg.name %>",
+            paths: ["src"],
             transform: [
               ["babelify", {
                 presets: ["es2015-ie"],
@@ -31,6 +32,7 @@ module.exports = function(grunt) {
         options: {
           browserifyOptions: {
             standalone: "<%= pkg.name %>",
+            paths: ["src"],
             transform: [
               ["babelify", {
                 presets: ["es2015-ie"],
@@ -50,7 +52,7 @@ module.exports = function(grunt) {
         browsers: ["Chrome"]
       },
       full: {
-        browsers: ["IE11 - Win7"],
+        browsers: ["Chrome", "IE11 - Win7", "IE9 - Win7"],
         autoWatch: false,
         singleRun: true
       }

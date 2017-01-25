@@ -1,4 +1,4 @@
-import exhibition from "../exhibition";
+import exhibition from "exhibition";
 
 class ReferenceComponent extends HTMLElement {
 

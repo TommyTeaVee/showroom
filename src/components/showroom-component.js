@@ -2,10 +2,10 @@ import $ from "jquery";
 import noop from "no-op";
 import dombars from "dombars";
 import ItemComponent from "./item-component";
-import { qAll } from "../utils";
+import { qAll } from "utils";
 import uuid from "uuid/v4";
-import exhibition from "../exhibition";
-import Register from "../register";
+import exhibition from "exhibition";
+import Register from "register";
 
 class ShowroomComponent extends HTMLElement {
 
