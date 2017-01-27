@@ -6,6 +6,7 @@ import { qAll } from "utils";
 import uuid from "uuid/v4";
 import exhibition from "exhibition";
 import Register from "register";
+import "whatwg-fetch";
 
 class ShowroomComponent extends HTMLElement {
 
@@ -31,11 +32,8 @@ class ShowroomComponent extends HTMLElement {
     });
   }
 
-  _fetch(item) {
-    if (!item || !(item && item instanceof ItemComponent)) {
-      throw new Error("No item is provided");
-    }
-    return $.get(item.target);
+  _fetch(item) { return fetch(item.target); }
+
   }
 
   _renderItem(item) {
