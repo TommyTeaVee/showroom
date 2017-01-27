@@ -5,4 +5,4 @@ export function isInstance(instance, klass) {
   return instance instanceof klass;
 }
 
-export function qAll(selector) { return Array.from(document.querySelectorAll(selector)); }
+export function qAll(selector) { return Array.from(fixture.el.querySelectorAll(selector)); }
