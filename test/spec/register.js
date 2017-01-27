@@ -6,20 +6,20 @@ describe("Register", () => {
   describe("Initialization", () => {
     it("should initialize an empty Register", () => {
       const reg = new Register();
-      assert.isTrue(Array.isArray(reg.items));
-      assert.deepEqual(reg.items, []);
+      expect(Array.isArray(reg.items)).toBe(true);
+      expect(reg.items).toEqual([]);
     });
 
     it("should store values given as an argument", () => {
       const reg = Builder.register();
-      assert.deepEqual(reg.items, [1,2,3,4]);
+      expect(reg.items).toEqual([1, 2, 3, 4])
     });
 
     it("should initialize the pointer with 0", () => {
       const reg = Builder.register();
       const reg2 = Builder.register();
-      assert.equal(reg.pointer, 0);
-      assert.equal(reg2.pointer, 0);
+      expect(reg.pointer).toEqual(0);
+      expect(reg2.pointer).toEqual(0);
     });
   });
 
@@ -27,14 +27,14 @@ describe("Register", () => {
     it("should increase by 1 when calling next once", () => {
       const reg = Builder.register();
       reg.next();
-      assert.equal(reg.pointer, 1);
+      expect(reg.pointer).toEqual(1);
     });
 
     it("should increase by 2 when calling twice", () => {
       const reg = Builder.register();
       reg.next();
       reg.next();
-      assert.equal(reg.pointer, 2);
+      expect(reg.pointer).toEqual(2);
     });
 
     it("should keep the last item when overflowing the items list", () => {
@@ -44,45 +44,45 @@ describe("Register", () => {
       reg.next();
       reg.next();
       reg.next();
-      assert.equal(reg.pointer, 3);
+      expect(reg.pointer).toEqual(3);
     });
   });
 
   describe("cycling", () => {
     it("should return undefined if no items are defined", () => {
       const reg = Builder.register([]);
-      assert.isUndefined(reg.current());
+      expect(reg.current()).not.toBeDefined();
     });
 
     it("should return the first item initially", () => {
       const reg = Builder.register();
-      assert.equal(reg.current(), 1);
+      expect(reg.current()).toEqual(1);
     });
 
     it("should cycle through the items list using next", () => {
       const reg = Builder.register();
-      assert.equal(reg.current(), 1);
+      expect(reg.current()).toEqual(1);
       reg.next();
-      assert.equal(reg.current(), 2);
+      expect(reg.current()).toEqual(2);
       reg.next();
-      assert.equal(reg.current(), 3);
+      expect(reg.current()).toEqual(3);
       reg.next();
-      assert.equal(reg.current(), 4);
+      expect(reg.current()).toEqual(4);
       reg.next();
-      assert.equal(reg.current(), 4);
+      expect(reg.current()).toEqual(4);
     });
 
     it("should cycle through the items list using next and prev", () => {
       const reg = Builder.register();
-      assert.equal(reg.current(), 1);
+      expect(reg.current()).toEqual(1);
       reg.prev();
-      assert.equal(reg.current(), 1);
+      expect(reg.current()).toEqual(1);
       reg.next();
-      assert.equal(reg.current(), 2);
+      expect(reg.current()).toEqual(2);
       reg.next();
-      assert.equal(reg.current(), 3);
+      expect(reg.current()).toEqual(3);
       reg.prev();
-      assert.equal(reg.current(), 2);
+      expect(reg.current()).toEqual(2);
     });
   });
 
@@ -91,7 +91,7 @@ describe("Register", () => {
       const reg = Builder.register();
 
       reg.prev();
-      assert.equal(reg.headCalls, 0);
+      expect(reg.headCalls).toEqual(0);
     });
 
     it("should call head when reaching the start of the register", () => {
@@ -100,7 +100,7 @@ describe("Register", () => {
       reg.next();
       reg.prev();
       reg.prev();
-      assert.equal(reg.headCalls, 1);
+      expect(reg.headCalls).toEqual(1);
     });
 
     it("should call head only once when reaching the start multiple times", () => {
@@ -108,7 +108,7 @@ describe("Register", () => {
 
       reg.next();
       times(3, reg.prev.bind(reg));
-      assert.equal(reg.headCalls, 1);
+      expect(reg.headCalls).toEqual(1);
     });
 
     it("should call head again when reaching the start again", () => {
@@ -118,7 +118,7 @@ describe("Register", () => {
       times(3, reg.prev.bind(reg));
       reg.next();
       times(3, reg.prev.bind(reg));
-      assert.equal(reg.headCalls, 2);
+      expect(reg.headCalls).toEqual(2);
     });
   });
 
@@ -127,14 +127,14 @@ describe("Register", () => {
       const reg = Builder.register();
 
       times(4, reg.next.bind(reg));
-      assert.equal(reg.tailCalls, 1);
+      expect(reg.tailCalls).toEqual(1);
     });
 
     it("should call tail only once when reaching the end multiple times", () => {
       const reg = Builder.register();
 
       times(6, reg.next.bind(reg));
-      assert.equal(reg.tailCalls, 1);
+      expect(reg.tailCalls).toEqual(1);
     });
 
     it("should call tail again when reading the end again", () => {
@@ -143,7 +143,7 @@ describe("Register", () => {
       times(6, reg.next.bind(reg));
       reg.prev();
       times(6, reg.next.bind(reg));
-      assert.equal(reg.tailCalls, 2);
+      expect(reg.tailCalls).toEqual(2);
     });
   });
 
@@ -151,23 +151,21 @@ describe("Register", () => {
     it("should throw an error when the item is not in the register", () => {
       const reg = Builder.register();
 
-      assert.throws(() => {
-        reg.set(5);
-      }, Error, "This item is not part of the register")
+      expect(() => { reg.set(5); }).toThrowError("This item is not part of the register");
     });
 
     it("should set the pointer to the item", () => {
       const reg = Builder.register();
 
       reg.set(3);
-      assert.equal(reg.pointer, 2);
+      expect(reg.pointer).toEqual(2);
     });
 
     it("should not call head when setting to the first item initially", () => {
       const reg = Builder.register();
 
       reg.set(1);
-      assert.equal(reg.headCalls, 0);
+      expect(reg.headCalls).toEqual(0);
     });
 
     it("should call head when setting to the first item", () => {
@@ -175,14 +173,14 @@ describe("Register", () => {
 
       reg.set(2);
       reg.set(1);
-      assert.equal(reg.headCalls, 1);
+      expect(reg.headCalls).toEqual(1);
     });
 
     it("should call tail when setting to the last item", () => {
       const reg = Builder.register();
 
       reg.set(4);
-      assert.equal(reg.tailCalls, 1);
+      expect(reg.tailCalls).toEqual(1);
     });
 
     it("should call head only once when setting to the first item twice", () => {
@@ -190,14 +188,14 @@ describe("Register", () => {
 
       reg.next();
       times(3, () => reg.set(1));
-      assert.equal(reg.headCalls, 1);
+      expect(reg.headCalls).toEqual(1);
     });
 
     it("should call tail only once when setting to the last item twice", () => {
       const reg = Builder.register();
 
       times(3, () => reg.set(4));
-      assert.equal(reg.tailCalls, 1);
+      expect(reg.tailCalls).toEqual(1);
     });
   });
 
@@ -206,26 +204,26 @@ describe("Register", () => {
       const reg = Builder.register();
       reg.append([5, 6]);
 
-      assert.deepEqual(reg.items, [1, 2, 3, 4, 5, 6]);
+      expect(reg.items).toEqual([1, 2, 3, 4, 5, 6]);
     });
 
     it("should not touch the pointer", () => {
       const reg = Builder.register();
       reg.append([5, 6]);
 
-      assert.equal(reg.pointer, 0);
-      assert.equal(reg.current(), 1);
+      expect(reg.pointer).toEqual(0);
+      expect(reg.current()).toEqual(1);
     });
 
     it("should call tail again when reaching the end with an extended itemset", () => {
       const reg = Builder.register();
       reg.set(4);
-      assert.equal(reg.tailCalls, 1);
+      expect(reg.tailCalls).toEqual(1);
 
       reg.append([6]);
 
       reg.next();
-      assert.equal(reg.tailCalls, 2);
+      expect(reg.tailCalls).toEqual(2);
     });
   });
 });

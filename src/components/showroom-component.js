@@ -1,4 +1,3 @@
-import $ from "jquery";
 import noop from "no-op";
 import dombars from "dombars";
 import ItemComponent from "./item-component";
@@ -22,28 +21,41 @@ class ShowroomComponent extends HTMLElement {
     this.addEventListener("click", this._handleClick);
   }
 
+  _compileTemplate(options) {
+    return dombars.compile(this.template)(options);
+  }
+
   _renderTemplate(content) {
-    if (typeof this.template !== "string") {
-      throw new Error(`'${this.template}' is not a valid template`);
-    }
-    return dombars.compile(this.template)({
-      content,
-      item: this._register.current()
+    return new Promise((resolve, reject) => {
+      if (typeof this.template !== "string") {
+        reject(`'${this.template}' is not a valid template`);
+      } else {
+        const options = { content, item: this._register.current() }
+        resolve(this._compileTemplate(options));
+      }
     });
   }
 
   _fetch(item) { return fetch(item.target); }
 
+  _fetchItem(item) {
+    return new Promise((resolve, reject) => {
+      if (!item || !(item && item instanceof ItemComponent)) {
+        reject("No item is provided");
+      } else {
+        resolve(this._fetch(item));
+      }
+    });
   }
 
   _renderItem(item) {
-    return $.when(item)
-      .pipe(this._fetch.bind(this))
-      .pipe(this._renderTemplate.bind(this));
+    return Promise.resolve(item)
+      .then(this._fetchItem.bind(this))
+      .then(this._renderTemplate.bind(this));
   }
 
   open(item) {
-    return this._renderItem(item).pipe((element) => {
+    return this._renderItem(item).then((element) => {
       if(this.element) {
         this.renderTarget.removeChild(this.element);
       }
