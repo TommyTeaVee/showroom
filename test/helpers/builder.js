@@ -95,8 +95,8 @@ export function reference(target = "showroom-1") {
   return document.querySelector("showroom-reference");
 }
 
-export function showroomWithReference() {
-  const ref = reference();
+export function showroomWithReference(target = "showroom-1") {
+  const ref = reference(target);
   const [showroom, items] = fullShowroom();
   return [ref, showroom, items];
 }

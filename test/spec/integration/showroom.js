@@ -2,9 +2,9 @@ import * as Builder from "../../helpers/builder";
 import * as Event from "../../helpers/event";
 
 describe("integration", () => {
-  describe("reference-component", () => {
-    it("should open the corresponding showroom", (done) => {
-      const [ref, showroom] = Builder.showroomWithReference();
+  describe("showroom-component", () => {
+    it("should open the showroom on click", (done) => {
+      const [showroom, items] = Builder.simpleShowroomItems();
 
       showroom.onOpen.then((element) => {
         expect(showroom.renderCalls).toEqual(1);
@@ -12,7 +12,7 @@ describe("integration", () => {
         done();
       });
 
-      Event.click(ref);
+      Event.click(items[2]);
     });
   });
 });
