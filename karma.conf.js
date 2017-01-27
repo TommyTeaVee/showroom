@@ -3,12 +3,13 @@
 module.exports = function(karma) {
   karma.set({
 
-    frameworks: [ "jasmine", "browserify", "chai", "fixture" ],
+    frameworks: [ "jasmine", "browserify", "fixture" ],
 
     files: [
       { pattern: "./test/setup.js", watched: false, included: true },
       { pattern: "./test/**/*.js", watched: false, included: true },
-      { pattern: "./test/fixtures/**/*.html" }
+      { pattern: "./test/fixtures/**/*.html", watched: false, included: true, served: true },
+      { pattern: "./test/fixtures/**/*.json", watched: false, included: true, served: true }
     ],
 
     reporters: [ "dots" ],
