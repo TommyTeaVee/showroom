@@ -1,4 +1,4 @@
-import exhibition from "exhibition";
+import Exhibition from "exhibition";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10;
 
@@ -8,5 +8,5 @@ beforeAll(() => {
 
 afterEach(function(){
   fixture.cleanup();
-  exhibition._reset();
+  Exhibition.getInstance()._reset();
 });

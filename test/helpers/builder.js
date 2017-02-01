@@ -35,7 +35,7 @@ class TestShowroom extends Showroom {
     return super._renderItem(item);
   }
 
-  _fetch() { return "content"; }
+  _fetch(item) { return item.target; }
 }
 
 document.registerElement("test-showroom", TestShowroom);
@@ -75,10 +75,9 @@ export function fullShowroom() {
 
 export function multipleShowrooms(count = 0) {
   times(count, () => {
-    fixture.load("empty_showroom.html", true);
+    fixture.load("full_showroom.html", true);
   });
   const showrooms = qAll("test-showroom");
-  showrooms.map((showroom) => showroom.template = "<p class='content'>{{content}}</p>");
   return showrooms;
 }
 
@@ -90,12 +89,12 @@ export function multipleIdShowrooms(count = 0) {
   return showrooms;
 }
 
-export function reference(target = "showroom-1") {
+export function reference(target = "item1") {
   fixture.set(`<showroom-reference target="${target}"></showroom-reference>`);
   return document.querySelector("showroom-reference");
 }
 
-export function showroomWithReference(target = "showroom-1") {
+export function showroomWithReference(target = "item1") {
   const ref = reference(target);
   const [showroom, items] = fullShowroom();
   return [ref, showroom, items];

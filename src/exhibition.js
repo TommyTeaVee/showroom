@@ -17,6 +17,8 @@ class Exhibition {
 
   static _resetInstance() { instance = null; }
 
+  static getInstance() { return new Exhibition(); }
+
   exhibit(showrooms) {
     instance.showrooms = instance.showrooms.concat(showrooms);
   }
@@ -41,4 +43,4 @@ class Exhibition {
 
 }
 
-export default (new Exhibition());
+export default Exhibition;

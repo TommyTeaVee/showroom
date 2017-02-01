@@ -1,10 +1,10 @@
-import exhibition from "exhibition";
+import Exhibition from "exhibition";
 
 class ReferenceComponent extends HTMLElement {
 
   createdCallback() { this.addEventListener("click", this._handleClick); }
 
-  _findItem() { return exhibition.findItem(this.getAttribute("target")); }
+  _findItem() { return Exhibition.getInstance().findItem(this.getAttribute("target")); }
 
   open(item) { return this._findItem().open(item); }
 

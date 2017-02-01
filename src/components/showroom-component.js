@@ -3,7 +3,7 @@ import dombars from "dombars";
 import ItemComponent from "./item-component";
 import { qAll } from "utils";
 import uuid from "uuid/v4";
-import exhibition from "exhibition";
+import Exhibition from "exhibition";
 import Register from "register";
 import "whatwg-fetch";
 
@@ -17,7 +17,7 @@ class ShowroomComponent extends HTMLElement {
     this.id = this.getAttribute("id") || uuid();
     this.tail = noop;
     this.head = noop;
-    exhibition.exhibit(this);
+    Exhibition.getInstance().exhibit(this);
   }
 
   _compileTemplate(options) {
