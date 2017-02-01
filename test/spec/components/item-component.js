@@ -1,5 +1,6 @@
 import ItemComponent from "components/item-component";
 import { isUUID } from "../../helpers/utils";
+import * as Builder from "../../helpers/builder";
 
 describe("Item component", () => {
 
@@ -27,6 +28,25 @@ describe("Item component", () => {
       fixture.set("<showroom-element><showroom-item id='id'></showroom-item></showroom-element>");
       const itemNode = document.querySelector("showroom-item");
       expect(itemNode.id).toEqual("id");
+    });
+
+    it("should store the showroom parent component", () => {
+      const [showroom, items] = Builder.fullShowroom();
+
+      expect(items.map(item => item.showroom))
+        .toEqual([showroom, showroom, showroom, showroom, showroom])
+    });
+  });
+
+  describe("open", () => {
+    it("should open the corresponding item", (done) => {
+      const [showroom, items] = Builder.fullShowroom();
+
+      items[0].open().then(element => {
+        expect(element.style.display).toEqual("block");
+        expect(element.tagName).toEqual("P");
+        done();
+      });
     });
   });
 

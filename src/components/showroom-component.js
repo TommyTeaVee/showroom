@@ -18,7 +18,6 @@ class ShowroomComponent extends HTMLElement {
     this.tail = noop;
     this.head = noop;
     exhibition.exhibit(this);
-    this.addEventListener("click", this._handleClick);
   }
 
   _compileTemplate(options) {
@@ -75,8 +74,6 @@ class ShowroomComponent extends HTMLElement {
     this.element.style.display = "none";
     this.isOpen = false;
   }
-
-  _handleClick() { this.open(this._register.items[0]); }
 
 }
 

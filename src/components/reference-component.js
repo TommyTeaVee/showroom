@@ -2,17 +2,13 @@ import exhibition from "exhibition";
 
 class ReferenceComponent extends HTMLElement {
 
-  createdCallback() {
-    this.addEventListener("click", this._handleClick);
-  }
+  createdCallback() { this.addEventListener("click", this._handleClick); }
 
-  _findShowroom() {
-    return exhibition.findShowroom(this.getAttribute("target"));
-  }
+  _findItem() { return exhibition.findItem(this.getAttribute("target")); }
 
-  open(item) { return this._findShowroom().open(item); }
+  open(item) { return this._findItem().open(item); }
 
-  _handleClick() { this.open(this._findShowroom()._register.items[0]); }
+  _handleClick() { this.open(); }
 }
 
 document.registerElement("showroom-reference", ReferenceComponent);

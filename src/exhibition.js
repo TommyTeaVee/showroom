@@ -2,6 +2,8 @@ import removeArrayItem from "remove-value"
 import { isInstance } from "./utils"
 import ShowroomComponent from "./components/showroom-component"
 
+const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+
 let instance = null;
 
 class Exhibition {
@@ -31,7 +33,11 @@ class Exhibition {
 
   _reset() { instance.showrooms = []; }
 
-  findShowroom(id) { return instance.showrooms.filter((showroom) => showroom.id === id)[0]; }
+  findItem(id) {
+    return flatten(
+      instance.showrooms.map(showroom => showroom._register.items)
+    ).filter(item => item.id === id)[0];
+  }
 
 }
 

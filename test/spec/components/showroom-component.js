@@ -242,4 +242,16 @@ describe("Showroom component", () => {
     });
   });
 
+  describe("optimisations", () => {
+    it("should not call render twice when opening the same item twice", (done) => {
+      const [showroom, items] = Builder.simpleShowroomItems();
+      const item = items[0];
+
+      showroom.open(item).then(() => showroom.open(item)).then(() => {
+        expect(showroom.renderCalls).toEqual(1);
+        done();
+      });
+    });
+  });
+
 });

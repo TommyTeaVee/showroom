@@ -6,3 +6,7 @@ export function isInstance(instance, klass) {
 }
 
 export function qAll(selector) { return Array.from(fixture.el.querySelectorAll(selector)); }
+
+export function flatten(arr) {
+  return arr.reduce((list,x) => list.concat([x, x+1]), []);
+}
