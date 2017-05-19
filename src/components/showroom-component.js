@@ -1,5 +1,5 @@
 import noop from "no-op";
-import dombars from "dombars";
+import handlebars from "handlebars";
 import ItemComponent from "./item-component";
 import { qAll } from "utils";
 import uuid from "uuid/v4";
@@ -20,9 +20,7 @@ class ShowroomComponent extends HTMLElement {
     Exhibition.getInstance().exhibit(this);
   }
 
-  _compileTemplate(options) {
-    return dombars.compile(this.template)(options);
-  }
+  _compileTemplate(options) { return handlebars.compile(this.template)(options); }
 
   _renderTemplate(content) {
     return new Promise((resolve, reject) => {

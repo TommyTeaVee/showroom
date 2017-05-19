@@ -49,8 +49,8 @@ describe("Showroom component", () => {
       const showroom = Builder.emptyShowroom();
       showroom.template = "no HTML";
 
-      showroom._renderTemplate().then((element) => {
-        expect(element.textContent).toEqual("no HTML");
+      showroom._renderTemplate().then((content) => {
+        expect(content).toEqual("no HTML");
         done();
       });
     });
@@ -59,8 +59,8 @@ describe("Showroom component", () => {
       const showroom = Builder.emptyShowroom();
       showroom.template = "<p></p>";
 
-      showroom._renderTemplate().then((element) => {
-        expect(element.tagName).toEqual("P");
+      showroom._renderTemplate().then((content) => {
+        expect(content).toEqual("<p></p>");
         done();
       });
     });
@@ -69,9 +69,8 @@ describe("Showroom component", () => {
       const showroom = Builder.emptyShowroom();
       showroom.template = "<p>{{content}}</p>";
 
-      showroom._renderTemplate("paragraph").then((element) => {
-        expect(element.tagName).toEqual("P");
-        expect(element.textContent).toEqual("paragraph");
+      showroom._renderTemplate("paragraph").then((content) => {
+        expect(content).toEqual("<p>paragraph</p>");
         done();
       });
     });
@@ -118,9 +117,8 @@ describe("Showroom component", () => {
     it("should fetch and render a given item", (done) => {
       const [showroom, item] = Builder.simpleShowroom();
 
-      showroom._renderItem(item).then((element) => {
-        expect(element.tagName).toEqual("P");
-        expect(element.textContent).toEqual("content");
+      showroom._renderItem(item).then((content) => {
+        expect(content).toEqual("content");
         done();
       });
     });
@@ -152,10 +150,8 @@ describe("Showroom component", () => {
   it("should attach the fetched content to the renderTarget when an item could be fetched successfully", (done) => {
       const [showroom, item] = Builder.simpleShowroom();
 
-      showroom.open(item).then((element) => {
-        expect(element.tagName).toEqual("P");
-        expect(element.textContent).toEqual("content");
-        expect(element.style.display).toEqual("block", "The content should be visible");
+      showroom.open(item).then((content) => {
+        expect(content).toEqual("content")
         done();
       });
     });
@@ -164,9 +160,9 @@ describe("Showroom component", () => {
       const [showroom, item] = Builder.simpleShowroom();
 
       showroom.open(item).then(() => {
-        showroom.close()
-        showroom.open(item).then((element) => {
-          expect(element.style.display).toEqual("block", "The content should be visible");
+        showroom.close();
+        showroom.open(item).then((content) => {
+          expect(content).toEqual("content");
           done();
         });
       });
@@ -178,7 +174,7 @@ describe("Showroom component", () => {
       showroom.open(item)
         .then(() => { showroom.open(item) })
         .then(() => {
-          expect(qAll("p").map((node) => node.style.display))
+          expect(qAll(".showroom").map((node) => node.style.display))
             .toEqual(["block"]);
           done();
         });
@@ -189,10 +185,9 @@ describe("Showroom component", () => {
     it("should make the content invisible", (done) => {
       const [showroom, item] = Builder.simpleShowroom();
 
-      showroom.open(item).then((element) => {
-        expect(element.style.display).toEqual("block", "The content should be visible");
+      showroom.open(item).then(() => {
+        expect(showroom.isOpen).toBe(true);
         showroom.close();
-        expect(element.style.display).toEqual("none", "The content should be invisible");
         expect(showroom.isOpen).toBe(false);
         done();
       });
@@ -205,8 +200,8 @@ describe("Showroom component", () => {
 
       showroom.open(items[0])
               .then(showroom.next.bind(showroom))
-              .then((element) => {
-                expect(element.textContent).toEqual("content");
+              .then((content) => {
+                expect(content).toEqual("content");
                 done();
               });
     });
@@ -216,8 +211,8 @@ describe("Showroom component", () => {
 
       showroom.open(items[1])
               .then(showroom.prev.bind(showroom))
-              .then((element) => {
-                expect(element.textContent).toEqual("content");
+              .then((content) => {
+                expect(content).toEqual("content");
                 done();
               });
     });
@@ -236,7 +231,7 @@ describe("Showroom component", () => {
         showroom.prev(),
         showroom.prev()
       ]).then((results) => {
-        expect(results.map((result) => result.textContent))
+        expect(results)
           .toEqual(["content", "content", "content", "content", "content", "content", "content", "content", "content"]);
       }).then(done);
     });

@@ -34,7 +34,7 @@
     "underscore": "1.8.3"
   },
   "dependencies": {
-    "dombars": "^0.6.2",
+    "handlebars": "^4.0.8",
     "no-op": "^1.0.3",
     "object-assign": "^4.1.0",
     "once": "^1.4.0",

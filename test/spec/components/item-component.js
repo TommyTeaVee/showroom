@@ -42,9 +42,8 @@ describe("Item component", () => {
     it("should open the corresponding item", (done) => {
       const [showroom, items] = Builder.fullShowroom();
 
-      items[0].open().then(element => {
-        expect(element.style.display).toEqual("block");
-        expect(element.tagName).toEqual("P");
+      items[0].open().then(content => {
+        expect(content).toEqual("target");
         done();
       });
     });
