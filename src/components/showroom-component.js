@@ -22,6 +22,8 @@ class ShowroomComponent extends HTMLElement {
 
   _compileTemplate(options) { return handlebars.compile(this.template)(options); }
 
+  _extractResponse(response) { return response.json(); }
+
   _renderTemplate(content) {
     return new Promise((resolve, reject) => {
       if (typeof this.template !== "string") {
@@ -48,19 +50,29 @@ class ShowroomComponent extends HTMLElement {
   _renderItem(item) {
     return Promise.resolve(item)
       .then(this._fetchItem.bind(this))
+      .then(this._extractResponse.bind(this))
       .then(this._renderTemplate.bind(this));
   }
 
   open(item) {
-    return this._renderItem(item).then((element) => {
-      if(this.element) {
-        this.renderTarget.removeChild(this.element);
-      }
-      this.element = element;
-      this.element.style.display = "block";
-      this.renderTarget.appendChild(this.element);
+    const target = document.querySelector('showroom-target');
+    if(!target) {
+      return Promise.reject("No showroom-target element is present in the DOM");
+    }
+    if(!item) {
+      return Promise.reject("No item is provided");
+    }
+    if(item.isOpen && this._register.current().id === item.id) {
+      return Promise.resolve();
+    }
+    return this._renderItem(item).then(content => {
+      target.innerHTML = content;
+      target.style.display = "block";
       this.isOpen = true;
-      return this.element;
+      this._register.items
+        .filter(needle => needle.id !== item.id)
+        .forEach(item => item.close());
+      return content;
     });
   }
 
@@ -69,8 +81,10 @@ class ShowroomComponent extends HTMLElement {
   prev() { return this.open(this._register.prev()); }
 
   close() {
-    this.element.style.display = "none";
+    const target = document.querySelector('showroom-target');
+    target.style.display = "none";
     this.isOpen = false;
+    this._register.items.forEach(item => item.close());
   }
 
 }

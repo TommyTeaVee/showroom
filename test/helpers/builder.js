@@ -21,7 +21,7 @@ class TestShowroom extends Showroom {
     this.headCalls = 0;
     this.tail = () => { this.tailCalls += 1; };
     this.head = () => { this.headCalls += 1; };
-    this.template = "<p>{{content}}</p>";
+    this.template = "{{content}}";
     this.renderTarget = fixture.el;
 
     this.onOpen = new Promise((resolve, reject) => {
@@ -36,6 +36,8 @@ class TestShowroom extends Showroom {
   }
 
   _fetch(item) { return item.target; }
+
+  _extractResponse(response) { return response; }
 }
 
 document.registerElement("test-showroom", TestShowroom);

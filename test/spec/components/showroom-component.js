@@ -128,14 +128,26 @@ describe("Showroom component", () => {
   describe("open", () => {
     it("should reject when no item is provided", () => {
       const [showroom, items] = Builder.showroom();
-
       showroom.open().catch((reason) => {
         expect(reason).toEqual("No item is provided");
-      }).then(() => {
-        showroom.open("i am no item").catch((reason) => {
-          expect(reason).toEqual("No item is provided");
-          done();
-        });
+      });
+    });
+
+    it("should reject when wrong type of item is provided", () => {
+      const [showroom, items] = Builder.showroom();
+      showroom.open("i am no item").catch((reason) => {
+        expect(reason).toEqual("No item is provided");
+        done();
+      });
+    });
+
+    it("should throw an error if no target component is available", (done) => {
+      fixture.set("<showroom-element><showroom-item></showroom-item></showroom-element>");
+      const showroom = document.querySelector("showroom-element");
+      const item = document.querySelector("showroom-item");
+      showroom.open(item).catch(reason => {
+        expect(reason).toEqual("No showroom-target element is present in the DOM");
+        done();
       });
     });
 
@@ -175,7 +187,7 @@ describe("Showroom component", () => {
       showroom.open(items[0])
         .then(() => { showroom.open(items[0]) })
         .then(() => {
-          expect(qAll(".showroom").map((node) => node.style.display))
+          expect(qAll("showroom-target").map((node) => node.style.display))
             .toEqual(["block"]);
           done();
         });
