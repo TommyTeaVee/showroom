@@ -7,8 +7,9 @@ describe("Showroom component", () => {
 
   describe("Initialization", () => {
     it("should call the created callback function and create showroom instance", () => {
-      const showroom = Builder.emptyShowroom();
-      expect(showroom._register.items).toEqual([]);
+      const [showroom, items] = Builder.showroom();
+      expect(items.map((node) => isUUID(node.id)))
+        .toEqual([true, true, true, true, true]);
       expect(isUUID(showroom.id)).toBe(true);
     });
 
@@ -19,7 +20,7 @@ describe("Showroom component", () => {
     });
 
     it("should collect all items inside a showroom component", () => {
-      const [showroom, items] = Builder.simpleShowroomItems();
+      const [showroom, items] = Builder.showroom();
       expect(items.map((node) => isUUID(node.id)))
         .toEqual([true, true, true, true, true]);
 
@@ -28,7 +29,7 @@ describe("Showroom component", () => {
     });
 
     it("should be closed initially", () => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
       expect(showroom.isOpen).toBe(false);
     });
 
@@ -36,7 +37,7 @@ describe("Showroom component", () => {
 
   describe("rendering", () => {
     it("should reject when trying to render an invalid template", (done) => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
       showroom.template = 2;
 
       showroom._renderTemplate().catch((reason) => {
@@ -46,7 +47,7 @@ describe("Showroom component", () => {
     });
 
     it("should render an empty text content template", (done) => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
       showroom.template = "no HTML";
 
       showroom._renderTemplate().then((content) => {
@@ -56,7 +57,7 @@ describe("Showroom component", () => {
     });
 
     it("should render an empty HTML content template", (done) => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
       showroom.template = "<p></p>";
 
       showroom._renderTemplate().then((content) => {
@@ -66,7 +67,7 @@ describe("Showroom component", () => {
     });
 
     it("should render an HTML content template with content provided", (done) => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
       showroom.template = "<p>{{content}}</p>";
 
       showroom._renderTemplate("paragraph").then((content) => {
@@ -78,7 +79,7 @@ describe("Showroom component", () => {
 
   describe("fetching", () => {
     it("should reject when no item is provided", () => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
 
       showroom._fetchItem().catch((reason) => {
         expect(reason).toEqual("No item is provided")
@@ -91,9 +92,9 @@ describe("Showroom component", () => {
     });
 
     it("should fetch a target given on an item", (done) => {
-      const [showroom, item] = Builder.simpleShowroom();
+      const [showroom, items] = Builder.showroom();
 
-      showroom._fetchItem(item).then((content) => {
+      showroom._fetchItem(items[0]).then((content) => {
         expect(content).toEqual("content");
         done();
       });
@@ -102,7 +103,7 @@ describe("Showroom component", () => {
 
   describe("rendering item", () => {
     it("should reject when no item is provided", () => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
 
       showroom._renderItem().catch((reason) => {
         expect(reason).toEqual("No item is provided");
@@ -115,9 +116,9 @@ describe("Showroom component", () => {
     });
 
     it("should fetch and render a given item", (done) => {
-      const [showroom, item] = Builder.simpleShowroom();
+      const [showroom, items] = Builder.showroom();
 
-      showroom._renderItem(item).then((content) => {
+      showroom._renderItem(items[0]).then((content) => {
         expect(content).toEqual("content");
         done();
       });
@@ -126,7 +127,7 @@ describe("Showroom component", () => {
 
   describe("open", () => {
     it("should reject when no item is provided", () => {
-      const showroom = Builder.emptyShowroom();
+      const [showroom, items] = Builder.showroom();
 
       showroom.open().catch((reason) => {
         expect(reason).toEqual("No item is provided");
@@ -139,29 +140,29 @@ describe("Showroom component", () => {
     });
 
     it("should be open when an item could be fetched successfully", (done) => {
-      const [showroom, item] = Builder.simpleShowroom();
+      const [showroom, items] = Builder.showroom();
 
-      showroom.open(item).then(() => {
+      showroom.open(items[0]).then(() => {
         expect(showroom.isOpen).toBe(true);
         done();
       });
     });
 
   it("should attach the fetched content to the renderTarget when an item could be fetched successfully", (done) => {
-      const [showroom, item] = Builder.simpleShowroom();
+      const [showroom, items] = Builder.showroom();
 
-      showroom.open(item).then((content) => {
+      showroom.open(items[0]).then((content) => {
         expect(content).toEqual("content")
         done();
       });
     });
 
     it("should toggle the element when opening the showroom multiple times", (done) => {
-      const [showroom, item] = Builder.simpleShowroom();
+      const [showroom, items] = Builder.showroom();
 
-      showroom.open(item).then(() => {
+      showroom.open(items[0]).then(() => {
         showroom.close();
-        showroom.open(item).then((content) => {
+        showroom.open(items[0]).then((content) => {
           expect(content).toEqual("content");
           done();
         });
@@ -169,10 +170,10 @@ describe("Showroom component", () => {
     });
 
     it("should only have one content element when opening multiple times", (done) => {
-      const [showroom, item] = Builder.simpleShowroom();
+      const [showroom, items] = Builder.showroom();
 
-      showroom.open(item)
-        .then(() => { showroom.open(item) })
+      showroom.open(items[0])
+        .then(() => { showroom.open(items[0]) })
         .then(() => {
           expect(qAll(".showroom").map((node) => node.style.display))
             .toEqual(["block"]);
@@ -183,9 +184,9 @@ describe("Showroom component", () => {
 
   describe("close", () => {
     it("should make the content invisible", (done) => {
-      const [showroom, item] = Builder.simpleShowroom();
+      const [showroom, items] = Builder.showroom();
 
-      showroom.open(item).then(() => {
+      showroom.open(items[0]).then(() => {
         expect(showroom.isOpen).toBe(true);
         showroom.close();
         expect(showroom.isOpen).toBe(false);
@@ -196,7 +197,7 @@ describe("Showroom component", () => {
 
   describe("cycling", () => {
     it("should open the next item", (done) => {
-      const [showroom, items] = Builder.simpleShowroomItems();
+      const [showroom, items] = Builder.showroom();
 
       showroom.open(items[0])
               .then(showroom.next.bind(showroom))
@@ -207,7 +208,7 @@ describe("Showroom component", () => {
     });
 
     it("should open the previous item", (done) => {
-      const [showroom, items] = Builder.simpleShowroomItems();
+      const [showroom, items] = Builder.showroom();
 
       showroom.open(items[1])
               .then(showroom.prev.bind(showroom))
@@ -218,7 +219,7 @@ describe("Showroom component", () => {
     });
 
     it("should properly cycle through all the items", (done) => {
-      const [showroom, items] = Builder.simpleShowroomItems();
+      const [showroom, items] = Builder.showroom();
 
       Promise.all([
         showroom.next(),
@@ -238,8 +239,8 @@ describe("Showroom component", () => {
   });
 
   describe("optimisations", () => {
-    it("should not call render twice when opening the same item twice", (done) => {
-      const [showroom, items] = Builder.simpleShowroomItems();
+    xit("should not call render twice when opening the same item twice", (done) => {
+      const [showroom, items] = Builder.showroom();
       const item = items[0];
 
       showroom.open(item).then(() => showroom.open(item)).then(() => {

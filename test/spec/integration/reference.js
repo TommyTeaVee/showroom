@@ -3,7 +3,7 @@ import * as Event from "../../helpers/event";
 
 describe("integration", () => {
   describe("reference-component", () => {
-    xit("should open the corresponding item", () => {
+    it("should open the corresponding item", () => {
       const [ref, showroom] = Builder.showroomWithReference();
 
       showroom.onOpen.then((element) => {
