@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         configFile: "karma.conf.js"
       },
       dev: {
-        browsers: ["Chrome"]
+        browsers: ["ChromeCanaryHeadless"]
       },
       full: {
         browsers: ["Chrome", "IE11 - Win7", "IE9 - Win7"],
