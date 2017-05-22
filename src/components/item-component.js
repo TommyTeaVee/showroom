@@ -15,6 +15,7 @@ class ItemComponent extends HTMLElement {
     this.target = this.getAttribute("target");
     this.title = this.getAttribute("title");
     this.id = this.getAttribute("id") || uuid();
+    this.type = this.getAttribute("type");
     this.showroom = this.parentElement;
     this.parentElement._register.append([this]);
 

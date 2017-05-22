@@ -6,6 +6,7 @@ import uuid from "uuid/v4";
 import Exhibition from "exhibition";
 import Register from "register";
 import "whatwg-fetch";
+import consume from "consumers";
 
 class ShowroomComponent extends HTMLElement {
 
@@ -22,7 +23,7 @@ class ShowroomComponent extends HTMLElement {
 
   _compileTemplate(options) { return handlebars.compile(this.template)(options); }
 
-  _extractResponse(response) { return response.json(); }
+  _extractResponse(response, type) { return consume(response); }
 
   _renderTemplate(content) {
     return new Promise((resolve, reject) => {
@@ -50,7 +51,7 @@ class ShowroomComponent extends HTMLElement {
   _renderItem(item) {
     return Promise.resolve(item)
       .then(this._fetchItem.bind(this))
-      .then(this._extractResponse.bind(this))
+      .then(response => this._extractResponse.bind(this)(response, item.type))
       .then(this._renderTemplate.bind(this));
   }
 
