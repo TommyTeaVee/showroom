@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "repository": "https://github.com/bierik/javascript-library",
   "license": "MIT",
-  "main": "dist/myapp.js",
+  "main": "dist/index.js",
   "description": "Boilerplate package for creating javascript babel es2015 library with test suit.",
   "scripts": {
     "test": "karma start"
