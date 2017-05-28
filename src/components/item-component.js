@@ -18,13 +18,21 @@ class ItemComponent extends HTMLElement {
     this.type = this.getAttribute("type");
     this.showroom = this.parentElement;
     this.parentElement._register.append([this]);
+    this.isOpen = false;
 
     this.addEventListener("click", this._handleClick);
   }
 
   _handleClick() { this.open(); }
 
-  open() { return this.showroom.open(this); }
+  open() {
+    return this.showroom.open(this).then((content) => {
+      this.isOpen = true
+      return content;
+    });
+  }
+
+  close() { this.isOpen = false; }
 
 }
 

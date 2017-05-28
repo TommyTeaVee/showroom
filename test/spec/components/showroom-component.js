@@ -250,13 +250,46 @@ describe("Showroom component", () => {
     });
   });
 
-  describe("optimisations", () => {
-    xit("should not call render twice when opening the same item twice", (done) => {
+  describe("optimizations", () => {
+    it("should not call render twice when opening the same item twice", (done) => {
       const [showroom, items] = Builder.showroom();
       const item = items[0];
-
-      showroom.open(item).then(() => showroom.open(item)).then(() => {
+      item.open().then(() => item.open()).then(() => {
         expect(showroom.renderCalls).toEqual(1);
+        done();
+      });
+    });
+
+    it("should open an other item after calling the previous item twice", (done) => {
+      const [showroom, items] = Builder.showroom();
+      const item = items[0];
+      const item2 = items[1];
+      item.open().then(() => item.open()).then(() => {
+        expect(showroom.renderCalls).toEqual(1);
+        item2.open().then(() => {
+          expect(showroom.renderCalls).toEqual(2);
+          done();
+        })
+      });
+    });
+
+    it("should properly cycle through all the items but not rendering items multiple times", (done) => {
+      const [showroom, items] = Builder.showroom();
+
+      Promise.all([
+        showroom.next(),
+        showroom.next(),
+        showroom.next(),
+        showroom.next(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev(),
+        showroom.prev()
+      ]).then(() => {
+        expect(showroom.renderCalls).toEqual(9);
         done();
       });
     });
