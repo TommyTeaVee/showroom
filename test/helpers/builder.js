@@ -42,13 +42,6 @@ class TestShowroom extends Showroom {
 
 document.registerElement("test-showroom", TestShowroom);
 
-export function showroomItems() {
-  fixture.load("target_showroom_items.html");
-  const showroom = document.querySelector("test-showroom");
-  const items = qAll("showroom-item");
-  return [showroom, items];
-}
-
 export function showroom() {
   fixture.load("full_showroom.html");
   const showroom = document.querySelector("test-showroom");
