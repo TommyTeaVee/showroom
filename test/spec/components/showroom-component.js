@@ -276,21 +276,22 @@ describe("Showroom component", () => {
     it("should properly cycle through all the items but not rendering items multiple times", (done) => {
       const [showroom, items] = Builder.showroom();
 
-      Promise.all([
-        showroom.next(),
-        showroom.next(),
-        showroom.next(),
-        showroom.next(),
-        showroom.prev(),
-        showroom.prev(),
-        showroom.prev(),
-        showroom.prev(),
-        showroom.prev(),
-        showroom.prev(),
-        showroom.prev()
-      ]).then(() => {
-        expect(showroom.renderCalls).toEqual(9);
-        done();
+      showroom.next()
+        .then(() => showroom.next())
+        .then(() => showroom.next())
+        .then(() => showroom.next())
+        .then(() => showroom.next())
+        .then(() => showroom.next())
+        .then(() => showroom.next())
+        .then(() => showroom.prev())
+        .then(() => showroom.prev())
+        .then(() => showroom.prev())
+        .then(() => showroom.prev())
+        .then(() => showroom.prev())
+        .then(() => showroom.prev())
+        .then(() => {
+          expect(showroom.renderCalls).toEqual(8);
+          done();
       });
     });
   });
