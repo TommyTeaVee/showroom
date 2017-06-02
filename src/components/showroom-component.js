@@ -60,6 +60,11 @@ class ShowroomComponent extends HTMLElement {
     if(!target) {
       return Promise.reject("No showroom-target element is present in the DOM");
     }
+    try {
+      this._register.set(item);
+    } catch(e) {
+      return Promise.reject(e);
+    }
     if(item.isOpen && this._register.current().id === item.id) {
       return Promise.resolve();
     }

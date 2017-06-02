@@ -253,7 +253,7 @@ describe("Showroom component", () => {
   describe("optimizations", () => {
     it("should not call render twice when opening the same item twice", (done) => {
       const [showroom, items] = Builder.showroom();
-      const item = items[0];
+      const item = items[1];
       item.open().then(() => item.open()).then(() => {
         expect(showroom.renderCalls).toEqual(1);
         done();
