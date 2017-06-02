@@ -17,11 +17,12 @@ describe("Item component", () => {
       expect(isUUID(itemNode.id)).toBe(true);
     });
 
-    it("should parse the target and title attribute on a showroom item node", () => {
-      fixture.set("<showroom-element><showroom-item target='target' title='title'></showroom-item></showroom-element>")
+    it("should parse the target, title and type attribute on a showroom item node", () => {
+      fixture.set("<showroom-element><showroom-item target='target' type='json' title='title'></showroom-item></showroom-element>")
       const itemNode = document.querySelector("showroom-item");
       expect(itemNode.target).toEqual("target");
       expect(itemNode.title).toEqual("title");
+      expect(itemNode.type).toEqual("json");
     });
 
     it("should prefer id on showroom item", () => {
@@ -31,7 +32,7 @@ describe("Item component", () => {
     });
 
     it("should store the showroom parent component", () => {
-      const [showroom, items] = Builder.fullShowroom();
+      const [showroom, items] = Builder.showroom();
 
       expect(items.map(item => item.showroom))
         .toEqual([showroom, showroom, showroom, showroom, showroom])
@@ -40,10 +41,10 @@ describe("Item component", () => {
 
   describe("open", () => {
     it("should open the corresponding item", (done) => {
-      const [showroom, items] = Builder.fullShowroom();
+      const [showroom, items] = Builder.showroom();
 
       items[0].open().then(content => {
-        expect(content).toEqual("target");
+        expect(content).toEqual("content");
         done();
       });
     });

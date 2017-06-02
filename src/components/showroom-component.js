@@ -6,6 +6,7 @@ import uuid from "uuid/v4";
 import Exhibition from "exhibition";
 import Register from "register";
 import "whatwg-fetch";
+import consume from "consumers";
 
 class ShowroomComponent extends HTMLElement {
 
@@ -21,6 +22,8 @@ class ShowroomComponent extends HTMLElement {
   }
 
   _compileTemplate(options) { return handlebars.compile(this.template)(options); }
+
+  _extractResponse(response, type) { return consume(response); }
 
   _renderTemplate(content) {
     return new Promise((resolve, reject) => {
@@ -48,20 +51,34 @@ class ShowroomComponent extends HTMLElement {
   _renderItem(item) {
     return Promise.resolve(item)
       .then(this._fetchItem.bind(this))
+      .then(response => this._extractResponse.bind(this)(response, item.type))
       .then(this._renderTemplate.bind(this));
   }
 
-  open(item) {
-    return this._renderItem(item).then((element) => {
-      if(this.element) {
-        this.renderTarget.removeChild(this.element);
-      }
-      this.element = element;
-      this.element.style.display = "block";
-      this.renderTarget.appendChild(this.element);
+  _open(item) {
+    const target = document.querySelector('showroom-target');
+    if(!target) {
+      return Promise.reject("No showroom-target element is present in the DOM");
+    }
+    if(item.isOpen && this._register.current().id === item.id) {
+      return Promise.resolve();
+    }
+    return this._renderItem(item).then(content => {
+      target.innerHTML = content;
+      target.style.display = "block";
       this.isOpen = true;
-      return this.element;
+      this._register.items
+        .filter(needle => needle.id !== item.id)
+        .forEach(item => item.close());
+      return content;
     });
+  }
+
+  open(item) {
+    if(!(item && item instanceof ItemComponent)) {
+      return Promise.reject("No item is provided");
+    }
+    return item.open();
   }
 
   next() { return this.open(this._register.next()); }
@@ -69,8 +86,10 @@ class ShowroomComponent extends HTMLElement {
   prev() { return this.open(this._register.prev()); }
 
   close() {
-    this.element.style.display = "none";
+    const target = document.querySelector('showroom-target');
+    target.style.display = "none";
     this.isOpen = false;
+    this._register.items.forEach(item => item.close());
   }
 
 }

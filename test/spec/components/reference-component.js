@@ -7,7 +7,7 @@ describe("Reference component", () => {
 
     ref.open(items[0]).then((content) => {
       expect(showroom.isOpen).toBe(true);
-      expect(content).toEqual("target")
+      expect(content).toEqual("content")
       done();
     });
   });

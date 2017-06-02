@@ -21,7 +21,7 @@ class TestShowroom extends Showroom {
     this.headCalls = 0;
     this.tail = () => { this.tailCalls += 1; };
     this.head = () => { this.headCalls += 1; };
-    this.template = "<p>{{content}}</p>";
+    this.template = "{{content}}";
     this.renderTarget = fixture.el;
 
     this.onOpen = new Promise((resolve, reject) => {
@@ -36,54 +36,29 @@ class TestShowroom extends Showroom {
   }
 
   _fetch(item) { return item.target; }
+
+  _extractResponse(response) { return response; }
 }
 
 document.registerElement("test-showroom", TestShowroom);
 
-export function emptyShowroom() {
-  fixture.load("empty_showroom.html");
-  const showroom = document.querySelector("test-showroom");
-  return showroom;
-}
-
-export function simpleShowroom() {
-  fixture.load("simple_showroom.html");
-  const showroom = document.querySelector("test-showroom");
-  const item = document.querySelector("showroom-item");
-  return [showroom, item];
-}
-
-export function simpleShowroomItems() {
-  fixture.load("simple_showroom_items.html");
-  const showroom = document.querySelector("test-showroom");
-  return [showroom, showroom._register.items];
-}
-
-export function showroomItems() {
-  fixture.load("target_showroom_items.html");
-  const showroom = document.querySelector("test-showroom");
-  const items = qAll("showroom-item");
-  return [showroom, items];
-}
-
-export function fullShowroom() {
+export function showroom() {
   fixture.load("full_showroom.html");
   const showroom = document.querySelector("test-showroom");
   const items = qAll("showroom-item");
   return [showroom, items];
 }
 
-export function multipleShowrooms(count = 0) {
-  times(count, () => {
-    fixture.load("full_showroom.html", true);
-  });
-  const showrooms = qAll("test-showroom");
-  return showrooms;
+export function fixedShowroom() {
+  fixture.load("showroom_id.html");
+  const showroom = document.querySelector("test-showroom");
+  const items = qAll("showroom-item");
+  return [showroom, items];
 }
 
-export function multipleIdShowrooms(count = 0) {
-  times(count, (i) => {
-    fixture.set(`<test-showroom id="showroom-${i}"></test-showroom>`, true);
+export function exhibition(count = 0) {
+  times(count, () => {
+    fixture.load("full_showroom.html", true);
   });
   const showrooms = qAll("test-showroom");
   return showrooms;
@@ -96,7 +71,7 @@ export function reference(target = "item1") {
 
 export function showroomWithReference(target = "item1") {
   const ref = reference(target);
-  const [showroom, items] = fullShowroom();
+  const [showroom, items] = this.fixedShowroom();
   return [ref, showroom, items];
 }
 

@@ -14,7 +14,7 @@ module.exports = function(karma) {
     reporters: [ "spec" ],
 
     specReporter: {
-      maxLogLines: 5,
+      maxLogLines: 10,
       suppressErrorSummary: false,
       suppressFailed: false,
       suppressSkipped: true,

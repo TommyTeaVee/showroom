@@ -15,15 +15,24 @@ class ItemComponent extends HTMLElement {
     this.target = this.getAttribute("target");
     this.title = this.getAttribute("title");
     this.id = this.getAttribute("id") || uuid();
+    this.type = this.getAttribute("type");
     this.showroom = this.parentElement;
     this.parentElement._register.append([this]);
+    this.isOpen = false;
 
     this.addEventListener("click", this._handleClick);
   }
 
   _handleClick() { this.open(); }
 
-  open() { return this.showroom.open(this); }
+  open() {
+    return this.showroom._open(this).then((content) => {
+      this.isOpen = true
+      return content;
+    });
+  }
+
+  close() { this.isOpen = false; }
 
 }
 

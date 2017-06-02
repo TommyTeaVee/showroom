@@ -4,7 +4,7 @@ import * as Event from "../../helpers/event";
 describe("integration", () => {
   describe("item-component", () => {
     it("should open the showroom with the current item on click", (done) => {
-      const [showroom, items] = Builder.simpleShowroomItems();
+      const [showroom, items] = Builder.showroom();
 
       showroom.onOpen.then((element) => {
         expect(showroom.renderCalls).toEqual(1);
