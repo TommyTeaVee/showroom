@@ -26,7 +26,7 @@ class ItemComponent extends HTMLElement {
   _handleClick() { this.open(); }
 
   open() {
-    return this.showroom.open(this).then((content) => {
+    return this.showroom._open(this).then((content) => {
       this.isOpen = true
       return content;
     });

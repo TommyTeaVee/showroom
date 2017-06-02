@@ -55,13 +55,10 @@ class ShowroomComponent extends HTMLElement {
       .then(this._renderTemplate.bind(this));
   }
 
-  open(item) {
+  _open(item) {
     const target = document.querySelector('showroom-target');
     if(!target) {
       return Promise.reject("No showroom-target element is present in the DOM");
-    }
-    if(!item) {
-      return Promise.reject("No item is provided");
     }
     if(item.isOpen && this._register.current().id === item.id) {
       return Promise.resolve();
@@ -75,6 +72,13 @@ class ShowroomComponent extends HTMLElement {
         .forEach(item => item.close());
       return content;
     });
+  }
+
+  open(item) {
+    if(!(item && item instanceof ItemComponent)) {
+      return Promise.reject("No item is provided");
+    }
+    return item.open();
   }
 
   next() { return this.open(this._register.next()); }
