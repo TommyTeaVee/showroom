@@ -7,6 +7,7 @@ import Exhibition from "exhibition";
 import Register from "register";
 import "whatwg-fetch";
 import consume from "consumers";
+const Mousetrap = require("mousetrap");
 
 class ShowroomComponent extends HTMLElement {
 
@@ -19,6 +20,10 @@ class ShowroomComponent extends HTMLElement {
     this.tail = noop;
     this.head = noop;
     Exhibition.getInstance().exhibit(this);
+
+    Mousetrap.bind("right", this.next.bind(this));
+    Mousetrap.bind("left", this.prev.bind(this));
+    Mousetrap.bind("escape", this.close.bind(this));
   }
 
   _compileTemplate(options) { return handlebars.compile(this.template)(options); }

@@ -24,8 +24,12 @@ class TestShowroom extends Showroom {
     this.template = "{{content}}";
     this.renderTarget = fixture.el;
 
-    this.onOpen = new Promise((resolve, reject) => {
+    this.onOpen = new Promise((resolve) => {
       this.openResolve = resolve;
+    });
+
+    this.onClose = new Promise((resolve) => {
+      this.closeResolve = resolve;
     });
   }
 
@@ -33,6 +37,11 @@ class TestShowroom extends Showroom {
     this.renderCalls += 1;
     this.openResolve(item);
     return super._renderItem(item);
+  }
+
+  close() {
+    this.closeResolve();
+    return super.close();
   }
 
   _fetch(item) { return item.target; }
