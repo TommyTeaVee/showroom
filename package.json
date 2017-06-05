@@ -35,6 +35,8 @@
   },
   "dependencies": {
     "handlebars": "^4.0.8",
+    "keycode": "^2.1.9",
+    "mousetrap": "^1.6.1",
     "no-op": "^1.0.3",
     "object-assign": "^4.1.0",
     "once": "^1.4.0",

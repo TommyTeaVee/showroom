@@ -7,6 +7,8 @@ import Exhibition from "exhibition";
 import Register from "register";
 import "whatwg-fetch";
 import consume from "consumers";
+import { isInstance } from "utils";
+const Mousetrap = require("mousetrap");
 
 class ShowroomComponent extends HTMLElement {
 
@@ -19,6 +21,10 @@ class ShowroomComponent extends HTMLElement {
     this.tail = noop;
     this.head = noop;
     Exhibition.getInstance().exhibit(this);
+
+    Mousetrap.bind("right", this.next.bind(this));
+    Mousetrap.bind("left", this.prev.bind(this));
+    Mousetrap.bind("escape", this.close.bind(this));
   }
 
   _compileTemplate(options) { return handlebars.compile(this.template)(options); }
@@ -40,7 +46,7 @@ class ShowroomComponent extends HTMLElement {
 
   _fetchItem(item) {
     return new Promise((resolve, reject) => {
-      if (!item || !(item && item instanceof ItemComponent)) {
+      if (!item || !(item && isInstance(item, ItemComponent))) {
         reject("No item is provided");
       } else {
         resolve(this._fetch(item));
@@ -80,7 +86,7 @@ class ShowroomComponent extends HTMLElement {
   }
 
   open(item) {
-    if(!(item && item instanceof ItemComponent)) {
+    if(!(item && isInstance(item, ItemComponent))) {
       return Promise.reject("No item is provided");
     }
     return item.open();

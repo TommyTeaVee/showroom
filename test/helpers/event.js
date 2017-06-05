@@ -1,5 +1,5 @@
 import simulateEvent from "simulate-event";
-import keycode from "./keycodes";
+import keycode from "keycode";
 
 export function click(element = document) {
   simulateEvent.simulate(element, "click");
@@ -7,36 +7,36 @@ export function click(element = document) {
 
 export function hitEnter(element = document) {
   simulateEvent.simulate(element, "keydown", {
-    keycode: keycode.ENTER
+    keyCode: keycode("ENTER")
   });
 }
 
 export function hitEscape(element = document) {
   simulateEvent.simulate(element, "keydown", {
-    keycode: keycode.ESCAPE
+    keyCode: keycode("ESCAPE")
   });
 }
 
 export function hitArrowRight(element = document) {
   simulateEvent.simulate(element, "keydown", {
-    keycode: keycode.ARROW_RIGHT
+    keyCode: keycode("RIGHT")
   });
 }
 
 export function hitArrowDown(element = document) {
   simulateEvent.simulate(element, "keydown", {
-    keycode: keycode.ARROW_DOWN
+    keyCode: keycode("DOWN")
   });
 }
 
 export function hitArrowLeft(element = document) {
   simulateEvent.simulate(element, "keydown", {
-    keycode: keycode.ARROW_LEFT
+    keyCode: keycode("LEFT")
   });
 }
 
 export function hitArrowUp(element = document) {
   simulateEvent.simulate(element, "keydown", {
-    keycode: keycode.ARROW_UP
+    keyCode: keycode("UP")
   });
 }

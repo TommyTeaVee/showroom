@@ -1,5 +1,6 @@
 import uuid from "uuid/v4";
 import ShowroomComponent from "./showroom-component";
+import { isInstance } from "utils";
 
 /*
   This class cannot be instantiated because the Component has no constructor.
@@ -9,7 +10,7 @@ import ShowroomComponent from "./showroom-component";
 class ItemComponent extends HTMLElement {
 
   createdCallback() {
-    if(!(this.parentElement instanceof ShowroomComponent)) {
+    if(!isInstance(this.parentElement, ShowroomComponent)) {
       throw new Error("A 'showroom-item' must be a child element of a 'showroom-element'");
     }
     this.target = this.getAttribute("target");
