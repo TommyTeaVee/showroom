@@ -11,6 +11,7 @@ class Exhibition {
     if (!instance) {
       instance = this;
       instance.showrooms = [];
+      window.addEventListener("popstate", this._handlePopstate.bind(this));
     }
     return instance;
   }
@@ -27,6 +28,16 @@ class Exhibition {
     showrooms.forEach((showroom) => {
       instance.showrooms = removeArrayItem(instance.showrooms, showroom);
     });
+  }
+
+  _handlePopstate(e) {
+    console.log(e.state);
+    const item = this.findItem(e.state.sid);
+    if(item) {
+      item.open();
+    } else {
+      this._getOpenShowrooms().forEach(showroom => showroom.open());
+    }
   }
 
   _getOpenShowrooms() {

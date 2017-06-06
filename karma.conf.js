@@ -11,6 +11,8 @@ module.exports = function(karma) {
       { pattern: "./test/fixtures/**/*.html", watched: false, included: true, served: true }
     ],
 
+    exclude: ['node_modules'],
+
     reporters: [ "spec" ],
 
     specReporter: {

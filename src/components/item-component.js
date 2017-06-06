@@ -29,6 +29,7 @@ class ItemComponent extends HTMLElement {
   open() {
     return this.showroom._open(this).then((content) => {
       this.isOpen = true
+      history.pushState({ sid: this.id }, "");
       return content;
     });
   }
