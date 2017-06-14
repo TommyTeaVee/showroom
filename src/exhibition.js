@@ -1,6 +1,5 @@
-import removeArrayItem from "remove-value"
-import { isInstance } from "./utils"
 import ShowroomComponent from "./components/showroom-component"
+import removeArrayItem from "remove-value"
 
 const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 

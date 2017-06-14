@@ -1,7 +1,7 @@
 import noop from "no-op";
 import handlebars from "handlebars";
 import ItemComponent from "./item-component";
-import { qAll } from "utils";
+import ReferenceComponents from "./reference-component";
 import uuid from "uuid/v4";
 import Exhibition from "exhibition";
 import Register from "register";
